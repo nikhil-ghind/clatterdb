@@ -1,0 +1,26 @@
+# Binaries
+bin/
+clatterdb
+clatter-cli
+*.exe
+
+# Go
+vendor/
+go.sum
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+
+# Data
+data/
+*.sst
+*.wal
+*.log
+
+# Docker
+docker-compose.override.yml

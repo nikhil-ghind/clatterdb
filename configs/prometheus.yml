@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "clatterdb"
+    static_configs:
+      - targets:
+          - "clatterdb-1:9091"
+          - "clatterdb-2:9091"
+          - "clatterdb-3:9091"

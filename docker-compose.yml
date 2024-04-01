@@ -1,0 +1,51 @@
+services:
+  clatterdb-1:
+    build: .
+    ports:
+      - "9090:9090"
+      - "9091:9091"
+    environment:
+      DATA_DIR: /data
+      HTTP_ADDR: ":9090"
+      METRICS_ADDR: ":9091"
+      RETENTION_DAYS: "7"
+    volumes:
+      - clatterdb-1-data:/data
+
+  clatterdb-2:
+    build: .
+    ports:
+      - "9190:9090"
+      - "9191:9091"
+    environment:
+      DATA_DIR: /data
+      HTTP_ADDR: ":9090"
+      METRICS_ADDR: ":9091"
+      RETENTION_DAYS: "7"
+    volumes:
+      - clatterdb-2-data:/data
+
+  clatterdb-3:
+    build: .
+    ports:
+      - "9290:9090"
+      - "9291:9091"
+    environment:
+      DATA_DIR: /data
+      HTTP_ADDR: ":9090"
+      METRICS_ADDR: ":9091"
+      RETENTION_DAYS: "7"
+    volumes:
+      - clatterdb-3-data:/data
+
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    volumes:
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9092:9090"
+
+volumes:
+  clatterdb-1-data:
+  clatterdb-2-data:
+  clatterdb-3-data:
