@@ -329,7 +329,7 @@ would be rejected with `400`. There is no `/api/v1/read` route.
 | `POST` | `/api/v1/write` | JSON body; `204 No Content` on success |
 | `GET` | `/api/v1/query?query=` | runs the query string above |
 | `GET` | `/api/v1/query_range?query=&start=&end=&step=` | `start`/`end` override the parsed range; **`step` is accepted and ignored** — downsample with the `DOWNSAMPLE` keyword |
-| `GET` | `/api/v1/series` | series keys known from SSTable metadata |
+| `GET` | `/api/v1/series` | series keys from SSTable metadata — series still only in the memtable are not listed |
 | `GET` | `/api/v1/status` | SSTable count, total samples, total bytes |
 | `GET` | `/health` | `{"status":"ok"}` |
 
@@ -522,11 +522,6 @@ Priorities for a real suite:
 
 Smaller known issues, so they are not rediscovered as surprises:
 
-- `cmd/clatterdb` builds a **second** `compaction.Manager` purely to back the
-  API's table list, and never registers anything with it — so
-  `/api/v1/status` always reports `sstable_count: 0` and `/api/v1/series`
-  always returns `[]`, even though queries work (they go through the engine's
-  own compactor).
 - `step` on `/api/v1/query_range` is parsed and discarded.
 - Series keys are built by iterating a Go map, so label order — and therefore
   the key string — is not stable for multi-label series.

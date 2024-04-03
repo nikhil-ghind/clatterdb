@@ -229,6 +229,17 @@ func (e *Engine) Close() error {
 	return e.wal.Close()
 }
 
+// Tables returns metadata for every SSTable the engine currently tracks.
+//
+// The engine owns the only compaction manager that has tables registered with
+// it — flushes and SSTable loading both go through e.compactor. Callers that
+// need the table list (the HTTP API, the query planner) must read it from here
+// rather than constructing a manager of their own, which would start empty and
+// stay empty.
+func (e *Engine) Tables() []compaction.TableInfo {
+	return e.compactor.GetAllTables()
+}
+
 // RunCompaction runs a single compaction cycle. Call periodically from a background goroutine.
 func (e *Engine) RunCompaction() error {
 	if !e.compactor.NeedsCompaction() {
