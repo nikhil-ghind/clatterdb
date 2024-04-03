@@ -169,6 +169,8 @@ batch. Set it to trade throughput for durability of the last few writes.
 
 ## Write path
 
+<img src="docs/lsm-write-path.svg" alt="Writes appended to the WAL and buffered in the skip-list memtable, which freezes at four megabytes and flushes to an L0 SSTable; once four L0 tables exist the compactor merges them into a single L1 table" width="880">
+
 `Engine.Write` holds the write lock for the whole operation and does, in order:
 
 1. `mvcc.Begin()` — allocate a transaction id
