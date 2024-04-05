@@ -6,7 +6,6 @@ clatter-cli
 
 # Go
 vendor/
-go.sum
 
 # IDE
 .idea/
